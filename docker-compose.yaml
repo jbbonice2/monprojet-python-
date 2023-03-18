@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+       - "9000:80"
+    restart: always
+    volumes:
+      - ./src:/usr/share/nginx/html:ro
+      - custom_volume1:/etc:rw
+    networks:
+      - bonice
+    
+  server:
+    image: nginx:latest
+    container_name: server
+    ports:
+      - "6000-7000:80"
+    restart: always
+    volumes:
+      - ./src:/usr/share/nginx/html:ro
+      - myvolume:/etc:rw     
+    networks:
+      - bonice
+networks:
+  bonice:
+    driver: bridge
+    name: bonice 
+volumes:
+  custom_volume1:
+  myvolume:
+    name: myvolume
+    external: yes    
+
